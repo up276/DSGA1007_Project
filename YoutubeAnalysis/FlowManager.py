@@ -20,26 +20,142 @@ class FlowManager():
         """
         self.printProgramInfos()
 
+    def InitiateFlow(self):
+        self.InitialUserOptions()
+        self.InitialUserInputLoop()
 
-    def userInputLoop(self):
+
+    def printProgramInfos(self):
+        print "\n==========================================="
+        print "WELCOME TO THE YOUTUBE VIDEO ANALYSIS PROGRAM"
+        print "===========================================\n"
+
+    def InitialUserOptions(self):
+        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+               1) press 1 to visualize the data of the training data set \n \
+               2) press 2 to explore the data \n \
+               3) press 3 to simulate the upload of a video \n \
+               4) Enter 'quit' to exit from the program "
+
+    def InitialUserInputLoop(self):
         """
             Create a loop asking the user which action he or she wants to take. The loop is break (and the program ends) whenever the user type quit.
         """
         userInput=""
         try:
             while userInput != "quit":
-                userInput = raw_input("Please enter one of the number: ")
+                userInput = raw_input("\nPlease enter one of the number: ")
                 if userInput == "1":
-                    self.analizeData()
+                    self.InitiateDataVisulizer()
                 elif userInput == "2":
-                    DataExplorer.InitiateDataExplorer(DataManager.cleaned_data)
-                    DataExplorer.userInputLoop()
+                    self.InitiateDataExplorer()
                 elif userInput == "3":
-                    self.uploadVideo()
+                    self.InitiateDataSimulator()
+                elif userInput == "quit":
+                    self.ExitProgram()
+
         except KeyboardInterrupt:
             print "quitting..."
             sys.exit()
 
+
+    def InitiateDataExplorer(self):
+        self.DataExplorerUserInputLoop()
+
+    def InitiateDataVisulizer(self):
+        self.DataVisulizerUserInputLoop()
+
+    def InitiateDataSimulator(self):
+        self.DataSimulatorUserInputLoop()
+
+    def printDataVisulizerOptions(self):
+        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+               1) press 1 for Visulizing whole data \n \
+               4) press 4 to go back to previous control \n \
+               2) Enter 'quit' to exit from the program "
+
+
+    def printDataExploreOptions(self):
+        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+               1) press 1 for general analysis \n \
+               2) press 2 for individual analyisis of each video catagory \n \
+               3) press 3 for individual feature analysis \n \
+               4) press 4 to go back to previous control \n \
+               5) Enter 'quit' to exit from the program "
+
+    def printDataSimulationOptions(self):
+        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+               1) press 1 for Video data Simulation \n \
+               4) press 4 to go back to previous control \n \
+               2) Enter 'quit' to exit from the program "
+
+
+    def DataVisulizerUserInputLoop(self):
+        """
+            Create a loop asking the user which action he or she wants to take. The loop is break (and the program ends) whenever the user type quit.
+        """
+        userInput=""
+        try:
+            while userInput != "quit":
+                self.printDataVisulizerOptions()
+                userInput = raw_input("\nPlease provide the input : ")
+                if userInput == "1":
+                    pass
+                elif userInput == "4":
+                    print "\nYou are now in the previous control"
+                    self.InitiateFlow()
+                elif userInput == "quit":
+                    self.ExitProgram()
+        except KeyboardInterrupt:
+            print "quitting..."
+            sys.exit()
+
+    def DataExplorerUserInputLoop(self):
+        """
+            Create a loop asking the user which action he or she wants to take. The loop is break (and the program ends) whenever the user type quit.
+        """
+        userInput=""
+        try:
+            while userInput != "quit":
+                self.printDataExploreOptions()
+                userInput = raw_input("\nPlease provide the input : ")
+                if userInput == "1":
+                    pass
+                elif userInput == "2":
+                    DataExplorer.individual_videocatagory_analysis(DataManager.cleaned_data)
+                elif userInput == "3":
+                    DataExplorer.individual_feature_analysis(DataManager.cleaned_data)
+                elif userInput == "4":
+                    print "\nYou are now in the previous control"
+                    self.InitiateFlow()
+                elif userInput == "quit":
+                    self.ExitProgram()
+        except KeyboardInterrupt:
+            print "quitting..."
+            sys.exit()
+
+
+    def DataSimulatorUserInputLoop(self):
+        """
+            Create a loop asking the user which action he or she wants to take. The loop is break (and the program ends) whenever the user type quit.
+        """
+        userInput=""
+        try:
+            while userInput != "quit":
+                self.printDataSimulationOptions()
+                userInput = raw_input("\nPlease provide the input : ")
+                if userInput == "1":
+                    pass
+                elif userInput == "4":
+                    print "\nYou are now in the previous control"
+                    self.InitiateFlow()
+                elif userInput == "quit":
+                    self.ExitProgram()
+        except KeyboardInterrupt:
+            print "quitting..."
+            sys.exit()
+
+    '''
     def plotResults(self):
         """
             This function could ask to the user which plots he wants to visualize and maybe ask for some parameter for the plot.
@@ -85,17 +201,17 @@ class FlowManager():
             print "quitting..."
             sys.exit()
 
-    def printProgramInfos(self):
-        print "String with a short description of the program and how it works. Than the list of option...\n \
-               1) press 1 to visualize the data of the training data set \n \
-               2) press 2 to explore the data \n \
-               3) press 3 to simulate the upload of a video"
+
+    '''
+
+    def ExitProgram(self):
+        print "Exiting...See you soon :)"
+        sys.exit()
 
 if __name__=="__main__":
     DataManager=DataManager()
     DataExplorer=DataStatistics()
-    data = DataManager.cleaned_data
     flowManager=FlowManager()
-    flowManager.userInputLoop()
+    flowManager.InitiateFlow()
 
 

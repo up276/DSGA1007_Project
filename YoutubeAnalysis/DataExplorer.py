@@ -9,7 +9,7 @@ import sys
 class DataStatistics():
     def __init__(self):
         print "Perform data analysiss..."
-
+    """
     def printExploreOptions(self):
         print "String with a short description of the program and how it works. Than the list of option...\n \
                2) press 1 for general analysis \n \
@@ -21,11 +21,10 @@ class DataStatistics():
         self.printExploreOptions()
         self.userInputLoop()
 
-
     def userInputLoop(self):
-        """
+        '''
             Create a loop asking the user which action he or she wants to take. The loop is break (and the program ends) whenever the user type quit.
-        """
+        '''
         userInput=""
         try:
             while userInput != "quit":
@@ -39,9 +38,11 @@ class DataStatistics():
         except KeyboardInterrupt:
             print "quitting..."
             sys.exit()
+    """
 
-    def individual_videocatagory_analysis(self):
-            dataframe = self.data
+
+    def individual_videocatagory_analysis(self,data):
+            dataframe = data
             variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","licensedContent"]
             count_features = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount"]
             columnNames = dataframe.columns.values
@@ -114,16 +115,16 @@ class DataStatistics():
             #    print
             """
 
-    def individual_feature_analysis(self):
-            data = self.data
+    def individual_feature_analysis(self,data):
+            dataframe = data
             variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","video_category_id"]
-            df = data[variable_names]
-            columnNames = data.columns.values
+            df = dataframe[variable_names]
+            columnNames = dataframe.columns.values
 
             #Features containing NULL Features
             print "\nFeatures containing Null values\n"
             for colname in columnNames:
-                if (data[colname].isnull().sum() > 0 ):
+                if (dataframe[colname].isnull().sum() > 0 ):
                     print colname
 
 
