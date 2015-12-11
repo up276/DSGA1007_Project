@@ -5,8 +5,12 @@ Created on Dec 5, 2015
 '''
 
 import sys
+import matplotlib.pyplot as plt
+import DataPlotter as dataplotter
 
 class DataStatistics():
+    features = {"1":"viewCount", "2":"likeCount", "3":"dislikeCount", "4":"favoriteCount","5":"commentCount","6":"dimension", "7":"definition", "8":"caption"}
+    Catagory_mapping = {2: 'Autos & Vehicles', 23: 'Comedy' , 27: 'Education', 24: 'Entertainment' , 1: 'Film & Animation', 20: 'Gaming' ,26: 'Howto & Style', 10: 'Music',25: 'News & Politics', 29:'Nonprofits & Activism' ,22:'People & Blogs', 15: 'Pets & Animals' , 28: 'Science & Technology', 17: 'Sports' , 19:'Travel & Events'}
     def __init__(self):
         print "Perform data analysiss..."
     """
@@ -114,19 +118,28 @@ class DataStatistics():
             #for col in columnNames:
             #    print
             """
+    def printCategories(self):
+        for key in self.features:
+            print key, "-->", self.features[key]
 
-    def individual_feature_analysis(self,data):
-            dataframe = data
-            variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","video_category_id"]
-            df = dataframe[variable_names]
-            columnNames = dataframe.columns.values
 
-            #Features containing NULL Features
-            print "\nFeatures containing Null values\n"
-            for colname in columnNames:
-                if (dataframe[colname].isnull().sum() > 0 ):
-                    print colname
-
+    def individual_feature_analysis(self,data,chosenFeature):
+#===============================================================================
+#             dataframe = data
+#             variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","video_category_id"]
+#             df = dataframe[variable_names]
+#             columnNames = dataframe.columns.values
+# 
+#             #Features containing NULL Features
+#             print "\nFeatures containing Null values\n"
+#             for colname in columnNames:
+#                 if (dataframe[colname].isnull().sum() > 0 ):
+#                     print colname
+#===============================================================================
+            print "chosen feature: ",self.features[chosenFeature]
+            featuresMeans = data.groupby(['video_category_id'])[self.features[chosenFeature]].mean()
+            featuresNames = [self.Catagory_mapping[x] for x in featuresMeans.index]
+            dataplotter.featuresBarPlot(featuresNames,featuresMeans.values)
 
 
 

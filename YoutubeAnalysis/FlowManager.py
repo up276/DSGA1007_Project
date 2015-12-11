@@ -124,7 +124,9 @@ class FlowManager():
                 elif userInput == "2":
                     DataExplorer.individual_videocatagory_analysis(DataManager.cleaned_data)
                 elif userInput == "3":
-                    DataExplorer.individual_feature_analysis(DataManager.cleaned_data)
+                    DataExplorer.printCategories()
+                    userInputfeature = raw_input("\nPlease provide the number of the feature : ")
+                    DataExplorer.individual_feature_analysis(DataManager.cleaned_data,userInputfeature)
                 elif userInput == "4":
                     print "\nYou are now in the previous control"
                     self.InitiateFlow()
@@ -207,6 +209,8 @@ class FlowManager():
     def ExitProgram(self):
         print "Exiting...See you soon :)"
         sys.exit()
+        
+        
 
 if __name__=="__main__":
     DataManager=DataManager()
