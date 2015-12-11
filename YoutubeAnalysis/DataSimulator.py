@@ -40,3 +40,5 @@ class Video():
         """
         print "Performing label prediction for the inserted data..."
         return "label"
+
+

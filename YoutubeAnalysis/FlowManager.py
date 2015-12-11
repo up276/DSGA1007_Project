@@ -120,7 +120,8 @@ class FlowManager():
                 self.printDataExploreOptions()
                 userInput = raw_input("\nPlease provide the input : ")
                 if userInput == "1":
-                    pass
+                    DataExplorer.generalAnalysis(DataManager.cleaned_data,
+                                                 DataManager.binaryTree(DataManager.cleaned_data))
                 elif userInput == "2":
                     DataExplorer.individual_videocatagory_analysis(DataManager.cleaned_data)
                 elif userInput == "3":
@@ -217,5 +218,6 @@ if __name__=="__main__":
     DataExplorer=DataStatistics()
     flowManager=FlowManager()
     flowManager.InitiateFlow()
+
 
 

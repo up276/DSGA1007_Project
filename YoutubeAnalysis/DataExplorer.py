@@ -7,6 +7,7 @@ Created on Dec 5, 2015
 import sys
 import matplotlib.pyplot as plt
 import DataPlotter as dataplotter
+import time
 
 class DataStatistics():
     features = {"1":"viewCount", "2":"likeCount", "3":"dislikeCount", "4":"favoriteCount","5":"commentCount","6":"dimension", "7":"definition", "8":"caption"}
@@ -140,6 +141,15 @@ class DataStatistics():
             featuresMeans = data.groupby(['video_category_id'])[self.features[chosenFeature]].mean()
             featuresNames = [self.Catagory_mapping[x] for x in featuresMeans.index]
             dataplotter.featuresBarPlot(featuresNames,featuresMeans.values)
+
+
+    def generalAnalysis(self,data,clf):
+
+            dataplotter.plotFeatureImportance(data,clf)
+
+            dataplotter.plotCorrelationMatrix(data)
+
+
 
 
 
