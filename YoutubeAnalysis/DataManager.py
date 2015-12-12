@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-
+from sklearn.cross_validation import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
 class DataManager:
 
@@ -41,6 +42,31 @@ class DataManager:
         df = data.drop('favoriteCount',axis = 1 )
         df = df.drop('dimension',axis = 1 )
         return df
+
+
+    def binaryTree(self, data):
+        '''
+            Building the binary tree on non-text data (for the plotting of feature importance)
+            input : dataframe including the data
+            output : binary tree trained on the data
+        '''
+
+        ####### REMINDER : ONCE FULL MODEL IS BUILT, REPLACE BY FULL MODEL ###########
+
+        # Split Data Set
+        target_var = "video_category_id"
+        predictor_var = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount", "caption"]
+
+        X = data[predictor_var]
+        Y = data[target_var]
+        Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, train_size = 0.80, random_state = 10)
+
+        # Build model
+        decision_tree = DecisionTreeClassifier(criterion="entropy",min_samples_split= 2 ,min_samples_leaf= 128 )
+        decision_tree.fit(Xtrain, Ytrain)
+
+
+        return decision_tree
 
 '''
 if __name__=="__main__":
