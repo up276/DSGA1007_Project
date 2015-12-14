@@ -10,6 +10,7 @@ from DataSimulator import  Video
 import pandas as pd
 import numpy as np
 from DataManager import DataManager
+import time
 
 class FlowManager():
 
@@ -68,6 +69,7 @@ class FlowManager():
     def InitiateDataSimulator(self):
         self.DataSimulatorUserInputLoop()
 
+
     def printDataVisulizerOptions(self):
         print "\nString with a short description of the program and how it works. Than the list of option...\n \
                1) press 1 for Visulizing whole data \n \
@@ -86,8 +88,20 @@ class FlowManager():
     def printDataSimulationOptions(self):
         print "\nString with a short description of the program and how it works. Than the list of option...\n \
                1) press 1 for Video data Simulation \n \
-               4) press 4 to go back to previous control \n \
-               2) Enter 'quit' to exit from the program "
+               2) press 4 to go back to previous control \n \
+               3) Enter 'quit' to exit from the program "
+
+    def printConfirmDataSimulationOptions(self):
+        print "\nPlease be aware it will take time to build the model before you can perform any simulation (about 30 sec for 16 Gb of ram)\n \
+               1) press 1 to confirm you want to perform Video data Simulation  \n \
+               2) press 4 to go back to previous control \n \
+               3) Enter 'quit' to exit from the program "
+
+    def printPredictionOptions(self):
+        print "\nThe predicting model is ready to operate. Please choose one of the following options\n \
+               1) press 1 to perform a prediction \n \
+               2) press 4 to go back to previous control \n \
+               3) Enter 'quit' to exit from the program "
 
 
     def DataVisulizerUserInputLoop(self):
@@ -109,6 +123,7 @@ class FlowManager():
         except KeyboardInterrupt:
             print "quitting..."
             sys.exit()
+
 
     def DataExplorerUserInputLoop(self):
         """
@@ -148,7 +163,7 @@ class FlowManager():
                 self.printDataSimulationOptions()
                 userInput = raw_input("\nPlease provide the input : ")
                 if userInput == "1":
-                    pass
+                    self.confirmDataSimulatorUserInputLoop()
                 elif userInput == "4":
                     print "\nYou are now in the previous control"
                     self.InitiateFlow()
@@ -157,6 +172,64 @@ class FlowManager():
         except KeyboardInterrupt:
             print "quitting..."
             sys.exit()
+
+
+    def confirmDataSimulatorUserInputLoop(self):
+        """
+            Since this option require time to build the model, ask user confirmation he/she wants to pursue
+        """
+        userInput=""
+        catagory_mapping = {2: 'Autos & Vehicles', 23: 'Comedy' , 27: 'Education', 24: 'Entertainment' , 1: 'Film & Animation',
+                    20: 'Gaming' ,26: 'Howto & Style', 10: 'Music',25: 'News & Politics', 29:'Nonprofits & Activism' ,
+                    22:'People & Blogs', 15: 'Pets & Animals' , 28: 'Science & Technology', 17: 'Sports' , 19:'Travel & Events'}
+        try:
+            while userInput != "quit":
+                self.printConfirmDataSimulationOptions()
+                userInput = raw_input("\nPlease provide the input : ")
+
+                if userInput == "1":
+
+                    # Building the model
+                    tree, model_count_title, model_count_description, count_vectorizer_title, count_vectorizer_description = Video.generatePredictingModel(DataManager.cleaned_data)
+
+                    # Performing the predictions on the user inputs
+                    try:
+                        while userInput != "quit":
+                            self.printPredictionOptions()
+                            userInput = raw_input("\nPlease provide the input : ")
+                            if userInput == "1":
+                                print "\nYou can either go on YoutTube and enter the title and the description of a video of your choice, or enter a title and a description of a random video you have in mind"
+                                time.sleep(1.5) # delay for 1.5 seconds
+                                title = raw_input("\nPlease provide the title of your video : ")
+                                description = raw_input("\nPlease provide the description of the video : ")
+                                video = Video(title,description)
+                                predicted_category_value = video.predictVideoCategory(tree, model_count_title,
+                                                                                      model_count_description,
+                                                                                      count_vectorizer_title,
+                                                                                      count_vectorizer_description)
+                                predicted_category_name = catagory_mapping[predicted_category_value]
+                                print "\nMy prediction is that your video is a {} video".format(predicted_category_name)
+                                time.sleep(3) # delay for 3 seconds
+
+                            elif userInput == "4":
+                                print "\nYou are now in the previous control"
+                                self.InitiateFlow()
+                            elif userInput == "quit":
+                                self.ExitProgram()
+                    except KeyboardInterrupt:
+                        print "quitting..."
+                        sys.exit()
+
+                elif userInput == "4":
+                    print "\nYou are now in the previous control"
+                    self.InitiateFlow()
+                elif userInput == "quit":
+                    self.ExitProgram()
+        except KeyboardInterrupt:
+            print "quitting..."
+            sys.exit()
+
+
 
     '''
     def plotResults(self):
@@ -218,6 +291,3 @@ if __name__=="__main__":
     DataExplorer=DataStatistics()
     flowManager=FlowManager()
     flowManager.InitiateFlow()
-
-
-
