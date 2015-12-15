@@ -19,7 +19,7 @@ class DataManager:
 
 
     def load_data(self):
-        dataframe = pd.read_csv('../YouTubeData/train_sample.csv')
+        dataframe = pd.read_csv('../YoutubeData/train_sample.csv')
         df_reindex = dataframe.reindex(np.random.permutation(dataframe.index))
         return df_reindex
 
