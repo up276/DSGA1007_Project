@@ -27,15 +27,15 @@ class FlowManager():
 
 
     def printProgramInfos(self):
-        print "\n==========================================="
+        print "\n================================================"
         print "WELCOME TO THE YOUTUBE VIDEO ANALYSIS PROGRAM"
-        print "===========================================\n"
+        print "================================================\n"
 
     def InitialUserOptions(self):
-        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+        print "\nYou are currently in the main menu. Please choose one of the options below\n \
                1) press 1 to visualize the data of the training data set \n \
                2) press 2 to explore the data \n \
-               3) press 3 to simulate the upload of a video \n \
+               3) press 3 to predict the category of a YouTube video \n \
                4) Enter 'quit' to exit from the program "
 
     def InitialUserInputLoop(self):
@@ -71,36 +71,36 @@ class FlowManager():
 
 
     def printDataVisulizerOptions(self):
-        print "\nString with a short description of the program and how it works. Than the list of option...\n \
-               1) press 1 for Visulizing whole data \n \
-               4) press 4 to go back to previous control \n \
+        print "\nThis part of the program will explain you what are the main characteristics of our data and will show you the first 5 rows of our dataframe\n \
+               1) press 1 to start the Visualization \n \
+               4) press 4 to go back to main menu \n \
                2) Enter 'quit' to exit from the program "
 
 
     def printDataExploreOptions(self):
-        print "\nString with a short description of the program and how it works. Than the list of option...\n \
+        print "\nThis part of the program allows you to explore the data more deeply and perform many different analysis \n \
                1) press 1 for general analysis \n \
                2) press 2 for individual analyisis of each video catagory \n \
                3) press 3 for individual feature analysis \n \
-               4) press 4 to go back to previous control \n \
+               4) press 4 to go back to main menu \n \
                5) Enter 'quit' to exit from the program "
 
     def printDataSimulationOptions(self):
-        print "\nString with a short description of the program and how it works. Than the list of option...\n \
-               1) press 1 for Video data Simulation \n \
-               2) press 4 to go back to previous control \n \
+        print "\nThis part of the program will allow you to perform Video Category Prediction\n \
+               1) press 1 to start the Video Category Prediction \n \
+               2) press 4 to go back to main menu \n \
                3) Enter 'quit' to exit from the program "
 
     def printConfirmDataSimulationOptions(self):
         print "\nPlease be aware it will take time to build the model before you can perform any simulation (about 30 sec for 16 Gb of ram)\n \
-               1) press 1 to confirm you want to perform Video data Simulation  \n \
-               2) press 4 to go back to previous control \n \
+               1) press 1 to confirm you want to perform the Video Category Prediction  \n \
+               2) press 4 to go back to main menu \n \
                3) Enter 'quit' to exit from the program "
 
     def printPredictionOptions(self):
         print "\nThe predicting model is ready to operate. Please choose one of the following options\n \
                1) press 1 to perform a prediction \n \
-               2) press 4 to go back to previous control \n \
+               2) press 4 to go back to main menu \n \
                3) Enter 'quit' to exit from the program "
 
 
@@ -114,9 +114,9 @@ class FlowManager():
                 self.printDataVisulizerOptions()
                 userInput = raw_input("\nPlease provide the input : ")
                 if userInput == "1":
-                    pass
+                    DataExplorer.visualizeData(DataManager.cleaned_data)
+                    self.InitiateFlow()
                 elif userInput == "4":
-                    print "\nYou are now in the previous control"
                     self.InitiateFlow()
                 elif userInput == "quit":
                     self.ExitProgram()
@@ -138,13 +138,14 @@ class FlowManager():
                     DataExplorer.generalAnalysis(DataManager.cleaned_data,
                                                  DataManager.binaryTree(DataManager.cleaned_data))
                 elif userInput == "2":
-                    DataExplorer.individual_videocatagory_analysis(DataManager.cleaned_data)
+                    DataExplorer.printVideoCategories()
+                    userInputVideoCatagory = raw_input("\nPlease provide the number of the Video Catagory : ")
+                    DataExplorer.individual_videocatagory_analysis(DataManager.cleaned_data , userInputVideoCatagory)
                 elif userInput == "3":
                     DataExplorer.printCategories()
                     userInputfeature = raw_input("\nPlease provide the number of the feature : ")
                     DataExplorer.individual_feature_analysis(DataManager.cleaned_data,userInputfeature)
                 elif userInput == "4":
-                    print "\nYou are now in the previous control"
                     self.InitiateFlow()
                 elif userInput == "quit":
                     self.ExitProgram()
@@ -165,7 +166,6 @@ class FlowManager():
                 if userInput == "1":
                     self.confirmDataSimulatorUserInputLoop()
                 elif userInput == "4":
-                    print "\nYou are now in the previous control"
                     self.InitiateFlow()
                 elif userInput == "quit":
                     self.ExitProgram()
@@ -179,9 +179,6 @@ class FlowManager():
             Since this option require time to build the model, ask user confirmation he/she wants to pursue
         """
         userInput=""
-        catagory_mapping = {2: 'Autos & Vehicles', 23: 'Comedy' , 27: 'Education', 24: 'Entertainment' , 1: 'Film & Animation',
-                    20: 'Gaming' ,26: 'Howto & Style', 10: 'Music',25: 'News & Politics', 29:'Nonprofits & Activism' ,
-                    22:'People & Blogs', 15: 'Pets & Animals' , 28: 'Science & Technology', 17: 'Sports' , 19:'Travel & Events'}
         try:
             while userInput != "quit":
                 self.printConfirmDataSimulationOptions()
@@ -198,7 +195,7 @@ class FlowManager():
                             self.printPredictionOptions()
                             userInput = raw_input("\nPlease provide the input : ")
                             if userInput == "1":
-                                print "\nYou can either go on YoutTube and enter the title and the description of a video of your choice, or enter a title and a description of a random video you have in mind"
+                                print "\nNow please go on YoutTube, chose the video of your choice, and enter the title and the description of that video (for more information, please read the README file)"
                                 time.sleep(1.5) # delay for 1.5 seconds
                                 title = raw_input("\nPlease provide the title of your video : ")
                                 description = raw_input("\nPlease provide the description of the video : ")
@@ -207,13 +204,12 @@ class FlowManager():
                                                                                       model_count_description,
                                                                                       count_vectorizer_title,
                                                                                       count_vectorizer_description)
-                                predicted_category_name = catagory_mapping[predicted_category_value]
+                                predicted_category_name = DataExplorer.Catagory_mapping[predicted_category_value]
                                 print "\nMy prediction is that your video is a {} video".format(predicted_category_name)
                                 time.sleep(3) # delay for 3 seconds
 
                             elif userInput == "4":
-                                print "\nYou are now in the previous control"
-                                self.InitiateFlow()
+                                self.self.InitiateFlow()
                             elif userInput == "quit":
                                 self.ExitProgram()
                     except KeyboardInterrupt:
@@ -221,8 +217,7 @@ class FlowManager():
                         sys.exit()
 
                 elif userInput == "4":
-                    print "\nYou are now in the previous control"
-                    self.InitiateFlow()
+                    self.self.InitiateFlow()
                 elif userInput == "quit":
                     self.ExitProgram()
         except KeyboardInterrupt:
