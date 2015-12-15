@@ -71,10 +71,10 @@ class DataStatistics():
         """
             Compute a group by on the chosenFeature and call featuresBarPlot to plot the result 
         """
-            print "chosen feature: ",self.features[chosenFeature]
-            featuresMeans = data.groupby(['video_category_id'])[self.features[chosenFeature]].mean()
-            featuresNames = [self.Catagory_mapping[x] for x in featuresMeans.index]
-            dataplotter.featuresBarPlot(featuresNames,featuresMeans.values)
+        print "chosen feature: ",self.features[chosenFeature]
+        featuresMeans = data.groupby(['video_category_id'])[self.features[chosenFeature]].mean()
+        featuresNames = [self.Catagory_mapping[x] for x in featuresMeans.index]
+        dataplotter.featuresBarPlot(featuresNames,featuresMeans.values)
 
 
     def generalAnalysis(self,data,clf):
