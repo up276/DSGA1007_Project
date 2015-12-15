@@ -25,19 +25,13 @@ def plotFeatureImportance(data,clf):
     '''
         Plot barchart showing numerical feature importance for determining video categories
         Input : classifier
-        Output : barchart showing the importance of features
+        Output : barchart showing the importance of features according to the classifier
     '''
 
-    # Keep dataframe with only numerical features
-    # numerical_features = [x for x in df.columns if x in ('video_category_id', 'viewCount', 'dislikeCount', '
-    # definition', 'dimension', 'favoriteCount', 'commentCount', 'caption', 'licensedCountent')]
-    # useful_df = df[numerical_features]
-
     print "Generating the Feature Importance bar chart...\n"
-    time.sleep(3) # delay for 3 seconds
-
+    time.sleep(3)
     print "You can now retrieve the Feature Importance bar chart in YoutubeData folder.\n"
-    time.sleep(3) # delay for 3 seconds
+    time.sleep(3)
 
     # Plot
     predictor_var = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount", "caption"]
@@ -46,7 +40,6 @@ def plotFeatureImportance(data,clf):
     ax.bar(np.arange(len(clf.feature_importances_)), clf.feature_importances_, width, color='b')
     ax.set_xticks(np.arange(len(clf.feature_importances_)))
     ax.set_xticklabels(predictor_var,rotation=45)
-    #plt.figure(figsize=(15,20))
     plt.title('Numerical Features Importance', fontsize=20)
     ax.set_ylabel('Normalized Entropy Importance')
     name = "../YoutubeData/feature_importance.pdf"
@@ -90,5 +83,7 @@ def plotCorrelationMatrix(data):
     plt.title('Corellation Matrix', fontsize=30)
     ax.set_ylabel('Features', fontsize=20)
     ax.set_xlabel('Features', fontsize=20)
+    #ax.set_xticklabels(data.columns, rotation=45)
+    #ax.set_yticklabels(data.columns, rotation=90)
     name = "../YoutubeData/correlation_matrix.pdf"
     plt.savefig(name)

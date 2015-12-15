@@ -46,42 +46,43 @@ class DataStatistics():
     """
 
 
-    def individual_videocatagory_analysis(self,data):
+    def individual_videocatagory_analysis(self,data,video_id):
             dataframe = data
-            variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","licensedContent"]
+            #variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","licensedContent"]
             count_features = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount"]
-            columnNames = dataframe.columns.values
-            print columnNames
-            video_ids = dataframe["video_category_id"].unique()
+            #columnNames = dataframe.columns.values
+            #print columnNames
+            #video_ids = dataframe["video_category_id"].unique()
 
 
-            for video_id in video_ids:
+            #for video_id in video_ids:
 
-                print "\n==============="
-                print "Analysis for video catagory = ",video_id
-                print "===============\n"
-                VideoCatagoryData = dataframe[dataframe["video_category_id"]==video_id]
-                VideoCatagory_CountData = VideoCatagoryData[count_features]
-                description = VideoCatagoryData.describe()
-                correlation = VideoCatagory_CountData.corr(method='pearson', min_periods=1)
-                print "description of each feature - "
-                print description
-                print "correlation within count features - "
-                print correlation
+            print "\n==============="
+            print "Analysis for video catagory = ",video_id
+            print "===============\n"
+            video_id = int(video_id)
+            VideoCatagoryData = dataframe[dataframe["video_category_id"]==video_id]
+            VideoCatagory_CountData = VideoCatagoryData[count_features]
+            description = VideoCatagoryData.describe()
+            correlation = VideoCatagory_CountData.corr(method='pearson', min_periods=1)
+            print "description of each feature - "
+            print description
+            print "correlation within count features - "
+            print correlation
 
-                print "\nCount for Binary features :------> \n"
-                print "Dimension : 2d(1) , 3d(0)"
-                dim=VideoCatagoryData.groupby('dimension')['video_category_id'].count()
-                print dim
-                print "definition : hd(1) , sd(0)"
-                defi=VideoCatagoryData.groupby('definition')['video_category_id'].count()
-                print defi
-                print "caption : TRUE(1) , FALSE(0)"
-                cap=VideoCatagoryData.groupby('caption')['video_category_id'].count()
-                print cap
-                print "caption : TRUE(1) , FALSE(0)"
-                lic=VideoCatagoryData.groupby('licensedContent')['video_category_id'].count()
-                print lic
+            print "\nCount for Binary features :------> \n"
+            print "Dimension : 2d(1) , 3d(0)"
+            dim=VideoCatagoryData.groupby('dimension')['video_category_id'].count()
+            print dim
+            print "definition : hd(1) , sd(0)"
+            defi=VideoCatagoryData.groupby('definition')['video_category_id'].count()
+            print defi
+            print "caption : TRUE(1) , FALSE(0)"
+            cap=VideoCatagoryData.groupby('caption')['video_category_id'].count()
+            print cap
+            print "caption : TRUE(1) , FALSE(0)"
+            lic=VideoCatagoryData.groupby('licensedContent')['video_category_id'].count()
+            print lic
 
 
             """
@@ -124,6 +125,11 @@ class DataStatistics():
             print key, "-->", self.features[key]
 
 
+    def printVideoCategories(self):
+        for key in self.Catagory_mapping:
+            print key, "-->", self.Catagory_mapping[key]
+
+
     def individual_feature_analysis(self,data,chosenFeature):
 #===============================================================================
 #             dataframe = data
@@ -148,6 +154,33 @@ class DataStatistics():
             dataplotter.plotFeatureImportance(data,clf)
 
             dataplotter.plotCorrelationMatrix(data)
+
+
+    def visualizeData(self,data):
+
+
+        print "\n The data we are using are metadata on YouTube videos..."
+        time.sleep(3)
+        print "\n The metadata we have on the videos are the following: "
+        time.sleep(3)
+        for col in data.columns:
+            print "\n > " + col
+            time.sleep(1.5)
+        print "\n We use these data to build a model able to perform prediction on the category to which each video belong..."
+        time.sleep(3)
+        print "\n The possible categories to which a video can belong are the following (only one category per video): "
+        time.sleep(3)
+        print "\n > Autos & Vehicles, Comedy, Education, Entertainment, Film & Animation, Gaming, Howto & Style, Music, " \
+              "News & Politics, Nonprofits & Activism, People & Blogs, Pets & Animals, Science & Technology, Sports, Travel & Events "
+        time.sleep(6)
+        print "\n In order to do that, we have a data set of about 240.000 YouTube videos..."
+        time.sleep(3)
+        print "\n Now here is what the first five rows of our data set look like --> ..."
+        time.sleep(3)
+        print "\n (You can always go check the full file : YouTubeData/train_sample.csv ...)"
+        time.sleep(3)
+        print data.head()
+        time.sleep(6)
 
 
 
