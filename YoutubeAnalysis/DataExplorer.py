@@ -120,23 +120,17 @@ class DataStatistics():
             #    print
             """
     def printCategories(self):
+        """
+            Print the list of features in the dataset 
+        """
         for key in self.features:
             print key, "-->", self.features[key]
 
 
     def individual_feature_analysis(self,data,chosenFeature):
-#===============================================================================
-#             dataframe = data
-#             variable_names = ["viewCount", "likeCount", "dislikeCount", "favoriteCount","commentCount","dimension", "definition", "caption","video_category_id"]
-#             df = dataframe[variable_names]
-#             columnNames = dataframe.columns.values
-# 
-#             #Features containing NULL Features
-#             print "\nFeatures containing Null values\n"
-#             for colname in columnNames:
-#                 if (dataframe[colname].isnull().sum() > 0 ):
-#                     print colname
-#===============================================================================
+        """
+            Compute a group by on the chosenFeature and call featuresBarPlot to plot the result 
+        """
             print "chosen feature: ",self.features[chosenFeature]
             featuresMeans = data.groupby(['video_category_id'])[self.features[chosenFeature]].mean()
             featuresNames = [self.Catagory_mapping[x] for x in featuresMeans.index]
