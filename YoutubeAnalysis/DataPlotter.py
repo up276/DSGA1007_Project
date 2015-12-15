@@ -16,6 +16,11 @@ class DataPlotting():
         print "call to class that plot..."
 
 def featuresBarPlot(barNames,barValues):
+    """
+        Display a bar plot with the barValues as the length of the bars and barNames as the name of the bars.
+        Input: name of the bars, value of the bars
+        Output: bar plot  
+    """
     plt.bar(range(0,len(barNames)),barValues)
     plt.xticks(range(0,len(barNames)), barNames,rotation='vertical')
     plt.show()
